@@ -26,12 +26,12 @@ body
 <tbody>
 <tr class="odd">
 <td align="left">Document Number:</td>
-<td align="left">DxxxxR0</td>
+<td align="left">P0872R0</td>
 </tr>
 <tr class="even">
 <td align="left">Date:</td>
 <td align="left">
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%y-%m-%d" startspan -->17-11-22<!--webbot bot="Timestamp" endspan i-checksum="12555" --></td>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%y-%m-%d" startspan -->17-11-25<!--webbot bot="Timestamp" endspan i-checksum="12939" --></td>
 </tr>
 <tr class="odd">
 <td align="left">Reply-to:</td>
@@ -43,16 +43,30 @@ body
 </tbody>
 </table>
 
-<h1 align="center">DRAFT<br>
-Discussion Summary: Applying Concepts to the Standard Library</h1>
+<h1 align="center">Discussion Summary: Applying Concepts to the Standard Library</h1>
 
-<p style="margin-left:20%; margin-right:20%;">A joint LWG/LEWG session in Albuquerque discussed 
+<h2>Introduction</h2>
+
+<p> 
 <a href="https://wg21.link/p0802">P0802R0</a>, <i>Applying 
-Concepts to the Standard Library.</i> This document summarizes those discussions and 
-any resulting action items. Committee members can see the Albuquerque wiki for full discussion 
-notes. </p>
+Concepts to the Standard Library</i> was<i> </i>discussed by a joint LWG/LEWG 
+session in Albuquerque.&nbsp;This paper presents a summary of those discussions, 
+as requested by Titus Winters, incoming LEWG chair. Action items and results of two polls are also 
+included.</p>
+
+<p>Thanks to Jonathan Coe for his extensive discussion notes, available to 
+committee members on the Albuquerque LEWG wiki.</p>
+
+<p>Errors and omissions in this paper are the author's alone.</p>
+
+<p>Subsequent to the discussion, the committee has created a Study Group on 
+Tooling. Presumably that SG will work on solutions for some of the migration 
+problems raised below. See <a href="https://wg21.link/p0684">P0684</a>, <i>C++ 
+Stability, Velocity, and Deployment Plans</i>.</p>
+
+<h2>Discussion Summary</h2>
 <p><b>Discussion:</b> The two &quot;Big Picture&quot; tenets from P0802R0 were 
-presented:</p>
+presented first:</p>
 <ul>
   <li>The basis for introducing concepts to the standard library must be the 
   <a href="https://wg21.link/ranges">Ranges 
@@ -106,18 +120,19 @@ std2. Much study and papers needed. </li>
   <li>Standard library churn relating to concepts and STL2 causing excessive ABI 
 breaks. </li>
   <li>We need to know what concept changes cause ABI breaks. </li>
-  <li>Lack of confidence that STL2 will happen. </li>
+  <li>Lack of confidence that STL2 will land in the IS this development cycle. </li>
   <li>Many questions as to what type traits become concepts, what type traits 
 survive. Study and papers needed. </li>
   <li>Need transition path for variadic template type traits to concepts. </li>
-  <li>Lack of knowledge of how much existing user code would be broken by STL2. 
+  <li>Lack of knowledge of how much existing user code would be broken by STL2 
+  impedes decision making.  
   </li>
   <li>STL2 challenges are so great no one is willing to commit to lead the STL2 
 effort. </li>
-  <li>Conceptification is likely to be costly for early adopters. </li>
+  <li>Introducing concepts to the standard library is likely to be costly for early adopters. </li>
   <li>Concepts related standard library design, tests, and other concepts work 
 can't begin until major compilers are C++20 concepts conformant. Particularly 
-for implementors, being Concepts TS conformant is not good enough. </li>
+for standard library implementors, being Concepts TS conformant is not good enough. </li>
   <li>Titus Winters: ... inventing version 2 is hard as it slows migration. Overlap 
 regions are very problematic. Migration with `std` and `std2` in place is very 
 hard. What stability are we promising? `stl2` is best if we promise eternal 
@@ -127,7 +142,7 @@ does it cost to move from now to C++next? What are our goals and priorities?
   <li>Jonathan Wakely: If we don't have a clean sheet to add things in parallel, 
 even a phased migration path will be problematic as people refuse to abandon 
 features. </li>
-  <li>We don't have tooling to make migration easy, yet. </li>
+  <li>We don't yet have tooling to make migration easy. </li>
   <li>Phased, forced migration may lead to people abandoning C++. Stability vs 
 velocity a major concern. </li>
   <li>Various other concerns about migration. </li>
@@ -136,8 +151,9 @@ aside and deal with what we do have consensus on. Nico Josuttis: Forget STL2
 when we talk about concepts. </li>
 </ul>
 <blockquote>
-<p><b>Note:</b> The discussion was about the standard library software 
-engineering challenges posed by STL2. The benefits of STL2 are well understood 
+<p><b>Comment:</b> The discussion above was about software 
+engineering challenges posed by introducing STL2 to the standard library. The 
+technical merits of STL2 were not discussed; these are already well understood 
 by the participants, who included the primary developers of STL2.</p>
 </blockquote>
 <p><b>Discussion:</b> One of the impediments to using concepts to the standard library 
@@ -145,9 +161,9 @@ is that LEWG/LWG members have very limited knowledge of designing interfaces
 using concepts, and a show of hands found no one in the room had ever used 
 concepts in production code. </p>
 <p><b>Action Item:</b> Nico will take the lead in activities to increase LEWG/LWG 
-knowledge of concepts. </p>
+knowledge of concepts as applied to library design. </p>
 <p><b>Discussion:</b> We want user feedback on the Ranges TS (and perhaps the Concepts 
-TS). Rather than just hope feedback surfaces, we need to proactively seek 
+TS). Rather than just hoping feedback surfaces, we need to proactively seek 
 feedback from users. </p>
 <p><b>Action Item:</b> Rob Douglas will take the lead in obtaining user feedback, with 
 help from Jeffrey Yasskin, Bryce Adelstein-Lelbach and perhaps Hal Finkel. </p>
@@ -161,7 +177,7 @@ participate in overload resolution” NOW, before the suggestions of Policy #1?
 </p>
 <p><b>SF&nbsp; F&nbsp;&nbsp; N&nbsp; A&nbsp; SA <br>
 &nbsp; </b>0&nbsp; 2&nbsp; 10 19&nbsp; 4 </p>
-<p><b>Action Item:</b> Titus Winters: Papers pointing out what we need to do are useful. 
+<p><b>Call for papers:</b> Titus Winters: Papers pointing out what we need to do are useful. 
 More please! </p>
 
 <hr>
