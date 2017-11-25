@@ -1,0 +1,188 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style>
+body
+{
+  font-family: arial, sans-serif;
+  max-width: 6.75in;
+  margin: 0px auto;
+  font-size: 85%;
+}
+ ins  {background-color: #CCFFCC; text-decoration: none;}
+ del  {background-color: #FFCACA; text-decoration: none;}
+ pre  {background-color: #D7EEFF; font-size: 95%; font-family: "courier new", courier, serif;}
+ code {font-family: "courier new", courier, serif;}
+ table {font-size: 90%;}
+</style>
+<title>Std Lib Concepts</title>
+</head>
+
+<body>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">Document Number:</td>
+<td align="left">P0872R0</td>
+</tr>
+<tr class="even">
+<td align="left">Date:</td>
+<td align="left">
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%y-%m-%d" startspan -->17-11-25<!--webbot bot="Timestamp" endspan i-checksum="12939" --></td>
+</tr>
+<tr class="odd">
+<td align="left">Reply-to:</td>
+<td align="left">Beman Dawes <code>&lt;bdawes at acm dot org&gt;</code></td>
+<tr class="odd">
+<td align="left">Audience:</td>
+<td align="left">Library, Library Evolution</td>
+</tr>
+</tbody>
+</table>
+
+<h1 align="center">Discussion Summary: Applying Concepts to the Standard Library</h1>
+
+<h2>Introduction</h2>
+
+<p> 
+<a href="https://wg21.link/p0802">P0802R0</a>, <i>Applying 
+Concepts to the Standard Library</i> was<i> </i>discussed by a joint LWG/LEWG 
+session in Albuquerque.&nbsp;This paper presents a summary of those discussions, 
+as requested by Titus Winters, incoming LEWG chair. Action items and results of two polls are also 
+included.</p>
+
+<p>Thanks to Jonathan Coe for his extensive discussion notes, available to 
+committee members on the Albuquerque LEWG wiki.</p>
+
+<p>Errors and omissions in this paper are the author's alone.</p>
+
+<p>Subsequent to the discussion, the committee has created a Study Group on 
+Tooling. Presumably that SG will work on solutions for some of the migration 
+problems raised below. See <a href="https://wg21.link/p0684">P0684</a>, <i>C++ 
+Stability, Velocity, and Deployment Plans</i>.</p>
+
+<h2>Discussion Summary</h2>
+<p><b>Discussion:</b> The two &quot;Big Picture&quot; tenets from P0802R0 were 
+presented first:</p>
+<ul>
+  <li>The basis for introducing concepts to the standard library must be the 
+  <a href="https://wg21.link/ranges">Ranges 
+TS</a>. </li>
+  <li>The Ranges TS has two separable components: a library of fundamental concepts 
+(TS Clauses 6 &amp; 7), and revisions of existing library components (TS Clauses 
+8-12, also known as STL2). <b>The characteristics of these two components are quite 
+different, so they should be considered and adopted separately</b>. </li>
+</ul>
+<p>These drew no further discussion; presumably  they were universally accepted.</p>
+<p><b>Discussion:</b> There was strong support for developing written design policies 
+and guidelines for the standard library, both in general and specific to 
+concepts. </p>
+<p><b>Action Item:</b> Jeffrey Yasskin will post a reflector message with further 
+information. </p>
+<p><b>Action Item:</b> Nathan Myers will start collecting a checklist of interface dos 
+and don'ts. (Presumably Nathan's work will build on the existing guidelines 
+Jeffrey's posting will reference.) </p>
+<p><b>Discussion:</b> There was general agreement that the first step for introducing 
+concepts into the standard library is to update C++ WP clause 20, Library 
+Introduction, to ready the standard library for the actual addition of concepts.
+</p>
+<p><b>Action Item:</b> Jonathan Wakely will lead the effort to write a proposal. The 
+primary basis will be clause 7 of the Ranges TS, but other TS material may be 
+included and other proposals will also be considered, such as: </p>
+<ul>
+  <li><a href="https://wg21.link/p0411">P0411</a> Separating Library Requirements and Preconditions by Jonathan Wakely. 
+  </li>
+  <li><a href="https://wg21.link/p0788">P0788</a> Standard Library Specification in a Concepts and Contracts World by 
+Walter E. Brown. </li>
+  <li><a href="https://wg21.link/p0830">P0830</a> Using Concepts and requires in the C++ Standard Library by Nicolai 
+Josuttis. </li>
+</ul>
+<p><b>Discussion:</b> There was general agreement that the second step for introducing 
+concepts to the standard library is to add Ranges TS clause 7, Fundamental 
+library concepts, to the C++ WP as soon as Library introduction has been updated 
+for concepts and a Fundamental library concepts proposal can be processed. There 
+is concern over what namespace Fundamental library concepts should go in. </p>
+<p><b>Action Item:</b> Casey Carter and Eric Niebler will lead this effort. They are 
+given authority to include other fundamental material from the ranges TS. </p>
+<p><b>Discussion:</b> There was considerable discussion of the software engineering 
+challenges posed by possible IS adoption of the STL2 portion of the Ranges TS. In 
+no particular order, STL2 challenges include: </p>
+<ul>
+  <li>Eric Niebler: Ranges TS work took as given that one could not add constraints 
+to algorithms without causing source-level breakages to user-code. Clean sheet 
+is needed with new namespace. If we want to make all these changes in namespace 
+`std` then it is not reasonable. </li>
+  <li>Namespace management, including relationship and interaction between std and 
+std2. Much study and papers needed. </li>
+  <li>Standard library churn relating to concepts and STL2 causing excessive ABI 
+breaks. </li>
+  <li>We need to know what concept changes cause ABI breaks. </li>
+  <li>Lack of confidence that STL2 will land in the IS this development cycle. </li>
+  <li>Many questions as to what type traits become concepts, what type traits 
+survive. Study and papers needed. </li>
+  <li>Need transition path for variadic template type traits to concepts. </li>
+  <li>Lack of knowledge of how much existing user code would be broken by STL2 
+  impedes decision making.  
+  </li>
+  <li>STL2 challenges are so great no one is willing to commit to lead the STL2 
+effort. </li>
+  <li>Introducing concepts to the standard library is likely to be costly for early adopters. </li>
+  <li>Concepts related standard library design, tests, and other concepts work 
+can't begin until major compilers are C++20 concepts conformant. Particularly 
+for standard library implementors, being Concepts TS conformant is not good enough. </li>
+  <li>Titus Winters: ... inventing version 2 is hard as it slows migration. Overlap 
+regions are very problematic. Migration with `std` and `std2` in place is very 
+hard. What stability are we promising? `stl2` is best if we promise eternal 
+stability but this will lead to 2-4x maintenance cost. How many release cycles 
+does it cost to move from now to C++next? What are our goals and priorities? 
+  </li>
+  <li>Jonathan Wakely: If we don't have a clean sheet to add things in parallel, 
+even a phased migration path will be problematic as people refuse to abandon 
+features. </li>
+  <li>We don't yet have tooling to make migration easy. </li>
+  <li>Phased, forced migration may lead to people abandoning C++. Stability vs 
+velocity a major concern. </li>
+  <li>Various other concerns about migration. </li>
+  <li>Beman Dawes: We are not ready to plan migration to STL2. We should set that 
+aside and deal with what we do have consensus on. Nico Josuttis: Forget STL2 
+when we talk about concepts. </li>
+</ul>
+<blockquote>
+<p><b>Comment:</b> The discussion above was about software 
+engineering challenges posed by introducing STL2 to the standard library. The 
+technical merits of STL2 were not discussed; these are already well understood 
+by the participants, who included the primary developers of STL2.</p>
+</blockquote>
+<p><b>Discussion:</b> One of the impediments to using concepts to the standard library 
+is that LEWG/LWG members have very limited knowledge of designing interfaces 
+using concepts, and a show of hands found no one in the room had ever used 
+concepts in production code. </p>
+<p><b>Action Item:</b> Nico will take the lead in activities to increase LEWG/LWG 
+knowledge of concepts as applied to library design. </p>
+<p><b>Discussion:</b> We want user feedback on the Ranges TS (and perhaps the Concepts 
+TS). Rather than just hoping feedback surfaces, we need to proactively seek 
+feedback from users. </p>
+<p><b>Action Item:</b> Rob Douglas will take the lead in obtaining user feedback, with 
+help from Jeffrey Yasskin, Bryce Adelstein-Lelbach and perhaps Hal Finkel. </p>
+<p><b>Poll:</b> We should delay IS targeting papers that are using requires clauses 
+and/or defining new `concept`s, as per p0802r0 Policy #1 “Build the Concepts 
+Foundations First?” </p>
+<p><b>SF&nbsp; F&nbsp; N&nbsp; A&nbsp; SA <br>
+</b>&nbsp; 4 21 10&nbsp; 2&nbsp; 0 </p>
+<p><b>Poll:</b> We should start using requires clauses instead of “shall not 
+participate in overload resolution” NOW, before the suggestions of Policy #1?
+</p>
+<p><b>SF&nbsp; F&nbsp;&nbsp; N&nbsp; A&nbsp; SA <br>
+&nbsp; </b>0&nbsp; 2&nbsp; 10 19&nbsp; 4 </p>
+<p><b>Call for papers:</b> Titus Winters: Papers pointing out what we need to do are useful. 
+More please! </p>
+
+<hr>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
